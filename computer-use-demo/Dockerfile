@@ -3,6 +3,13 @@ FROM docker.io/ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBIAN_PRIORITY=high
 
+
+# 카카오 ubuntu archive mirror server 추가. 다운로드 속도 향상
+RUN sed -i 's@archive.ubuntu.com@mirror.kakao.com@g' /etc/apt/sources.list && \
+    sed -i 's/ports.ubuntu.com/mirror.yuki.net.uk/g' /etc/apt/sources.list && \
+    apt-get update
+
+
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -y install \
@@ -51,6 +58,12 @@ RUN apt-get update && \
     pcmanfm \
     unzip && \
     apt-get clean
+
+# LANG 환경변수 설정
+ENV LANG ko_KR.UTF-8
+
+# 나눔고딕 폰트 설치
+RUN apt-get update && apt-get install -y fonts-nanum && fc-cache -f -v
 
 # Install noVNC
 RUN git clone --branch v1.5.0 https://github.com/novnc/noVNC.git /opt/noVNC && \
