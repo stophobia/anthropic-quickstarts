@@ -1,8 +1,8 @@
 # Anthropic Computer Use Demo
 
-> [!주의]  
+> [!주의]
 > Computer use는 베타 기능입니다. Computer use는 표준 API 기능이나 채팅 인터페이스와는 다른 고유한 위험이 있다는 점을 유의해주세요. 이러한 위험은 인터넷과 상호작용할 때 더욱 높아집니다. 위험을 최소화하기 위해 다음과 같은 예방 조치를 고려하세요:
-> 
+>
 > 1. 직접적인 시스템 공격이나 사고를 방지하기 위해 최소한의 권한을 가진 전용 가상 머신이나 컨테이너를 사용하세요.
 > 2. 정보 도난을 방지하기 위해 계정 로그인 정보와 같은 민감한 데이터에 대한 접근 권한을 모델에 부여하지 마세요.
 > 3. 악성 콘텐츠에 대한 노출을 줄이기 위해 허용 목록의 도메인으로 인터넷 접근을 제한하세요.
@@ -30,6 +30,42 @@
 ## Quickstart: Docker 컨테이너 실행하기
 
 [이후 내용은 기술적인 명령어와 설정이 많아 원문 형태를 유지하는 것이 좋을 것 같습니다. 번역이 필요한 부분만 번역하여 제공하겠습니다.]
+
+### 명령어 실행
+
+> 설치
+```bash
+./setup.sh
+```
+
+> 도커 빌드
+```bash
+docker build . -t computer-use-demo:local
+```
+
+Anthropic API 키 발급
+
+- 주소: https://console.anthropic.com/dashboard
+
+> anthropic api 키 설정
+```bash
+export ANTHROPIC_API_KEY="sk-ant-api03-..."
+```
+
+> 도커 실행
+```bash
+docker run \
+    -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
+    -v $(pwd)/computer_use_demo:개인PC의 볼륨(예시: /Users/teddy/Downloads/2024-10) \
+    -v $HOME/.anthropic:anthropic 홈 디렉토리(예시: /home/computeruse/.anthropic) \
+    -p 5900:5900 \
+    -p 8501:8501 \
+    -p 6080:6080 \
+    -p 8080:8080 \
+    -it computer-use-demo:local
+```
+
+
 
 ### Screen size
 
